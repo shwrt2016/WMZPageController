@@ -36,34 +36,31 @@
 #define PageColor(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define PageK1px (1 / UIScreen.mainScreen.scale)
 ///window
-#define  PageWindow \
-({\
-UIWindow *window = nil; \
-if (@available(iOS 13.0, *)) \
-{ \
-    for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes) { \
-        if (windowScene.activationState == UISceneActivationStateForegroundActive) \
-        { \
-            for (UIWindow *currentWindow in windowScene.windows)\
-            { \
-                if (currentWindow.isKeyWindow)\
-                { \
-                    window = currentWindow; \
-                    break; \
-                }\
-            }\
-        }\
-    }\
-    if(!window){  \
-        window =  [UIApplication sharedApplication].keyWindow; \
-    }\
-}\
-else \
-{ \
-    window =  [UIApplication sharedApplication].keyWindow; \
-}\
-(window); \
-})\
+#define PageWindow \
+({ \
+    UIWindow *window = nil; \
+    if (@available(iOS 13.0, *)) { \
+        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) { \
+            if ([scene isKindOfClass:[UIWindowScene class]] && \
+                scene.activationState == UISceneActivationStateForegroundActive) { \
+                UIWindowScene *windowScene = (UIWindowScene *)scene; \
+                for (UIWindow *currentWindow in windowScene.windows) { \
+                    if (currentWindow.isKeyWindow) { \
+                        window = currentWindow; \
+                        break; \
+                    } \
+                } \
+                if (window) break; \
+            } \
+        } \
+        if (!window) { \
+            window = [UIApplication sharedApplication].keyWindow; \
+        } \
+    } else { \
+        window = [UIApplication sharedApplication].keyWindow; \
+    } \
+    window; \
+})
 
 ///判断iphoneX
 #define PageIsIphoneX ({\
