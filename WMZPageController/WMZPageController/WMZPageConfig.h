@@ -89,7 +89,7 @@ isIpad;\
 #define PageVCNavBarHeight ((PageIsIpad?50.f:44.f)+ PageVCStatusBarHeight)
 
 ///底部标签栏高度
-#define PageVCTabBarHeight (PageIsIphoneX ? (49.f+34.f) : 49.f)
+#define PageVCTabBarHeight (49.0f + PageWindow.safeAreaInsets.bottom)
 
 #define WMZPagePropStatementAndPropSetFuncStatement(propertyModifier,className, propertyPointerType, propertyName)           \
 @property(nonatomic,propertyModifier)propertyPointerType  propertyName;                                                 \
