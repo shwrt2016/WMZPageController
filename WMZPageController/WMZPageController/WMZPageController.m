@@ -142,7 +142,7 @@
     _param = param;
     if (self.param.wDeviceChange)
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(change:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
-    menuScreen = (self.param.wMenuWidth == PageVCWidth);
+    menuScreen = (self.param.wMenuWidth == self.view.bounds.size.width);
     if (self.pageView) {
         [self.pageView removeFromSuperview];
     }
@@ -170,11 +170,19 @@
 - (void)changeLeft:(BOOL)left{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (self->menuScreen) {
-            self.param.wMenuWidth = PageVCWidth;
+            self.param.wMenuWidth = self.view.bounds.size.width;
         }
         self.pageView.frame = self.view.bounds;
         [self.pageView setUpUI:NO];
     });
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self changeLeft:false];
+    }];
+
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key{
