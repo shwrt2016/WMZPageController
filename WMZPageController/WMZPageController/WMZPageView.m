@@ -98,7 +98,7 @@
     if (UIEdgeInsetsEqualToEdgeInsets(self.originMenuInsets, UIEdgeInsetsMake(-1, -1, -1, -1))) {
         self.originMenuInsets = self.param.wMenuInsets;
     }
-    self.backgroundColor = UIColor.whiteColor;
+//    self.backgroundColor = UIColor.whiteColor;
     footerViewIndex = -1;
     CGFloat headY = 0;
     CGFloat tabbarHeight = 0;
